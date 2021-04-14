@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interpreter.Collections
 {
-    internal readonly struct KeyValuePair<TKey, TValue>
+    public readonly struct KeyValuePair<TKey, TValue>
     {
         public TKey Key { get; }
 

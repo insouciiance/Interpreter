@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Interpreter.Collections
 {
-    internal class LinkedList<T> : IEnumerable<T>
+    public class LinkedList<T> : IEnumerable<T>
     {
         public LinkedListNode<T> Head { get; private set; }
         public LinkedListNode<T> Last { get; private set; }
@@ -31,6 +31,18 @@ namespace Interpreter.Collections
             
             Last.Next = new LinkedListNode<T>(item, null);
             Last = Last.Next;
+        }
+
+        public void AddFirst(T item)
+        {
+            if (Head == null)
+            {
+                Head = new LinkedListNode<T>(item, null);
+                Last = Head;
+                return;
+            }
+
+            Head = new LinkedListNode<T>(item, Head);
         }
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => new LinkedListEnumerator(this);
