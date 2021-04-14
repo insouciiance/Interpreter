@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interpreter.Collections
 {
-    internal class LinkedListNode<T>
+    public class LinkedListNode<T>
     {
         public T Data { get; set; }
         public LinkedListNode<T> Next { get; set; }
