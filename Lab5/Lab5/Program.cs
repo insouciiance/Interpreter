@@ -1,4 +1,5 @@
 ﻿using System;
+using Interpreter.Collections;
 
 namespace Lab5
 {
@@ -6,7 +7,7 @@ namespace Lab5
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Hashtable<int, int> ht = new Hashtable<int, int>();
         }
     }
 }
