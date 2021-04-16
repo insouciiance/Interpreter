@@ -20,7 +20,7 @@ namespace Interpreter.Collections
 
         public void Add(TKey key, TValue val)
         {
-            if ((double) _count / _table.Length > MaxLoadFactor)
+            if ((double)_count / _table.Length > MaxLoadFactor)
             {
                 Resize();
             }
@@ -69,6 +69,41 @@ namespace Interpreter.Collections
 
                 throw new KeyNotFoundException();
             }
+
+            set
+            {
+                int index = HashToIndex(key, _table.Length);
+
+                if (key == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                if (index >= _table.Length || _table[index] == null)
+                {
+                    throw new KeyNotFoundException();
+                }
+
+                if (_table[index].Head == _table[index].Last && key.Equals(_table[index].Head.Data.Key))
+                {
+                    _table[index].Head.Data = new KeyValuePair<TKey, TValue>(_table[index].Head.Data.Key, value);
+                }
+
+                LinkedListNode<KeyValuePair<TKey, TValue>> currentNode = _table[index].Head;
+
+                while (currentNode != null)
+                {
+                    if (currentNode.Data.Key.Equals(key))
+                    {
+                        currentNode.Data = new KeyValuePair<TKey, TValue>(key, value);
+                        return;
+                    }
+
+                    currentNode = currentNode.Next;
+                }
+
+                throw new KeyNotFoundException();
+            }
         }
 
         private void Resize(int multiplier = 2)
@@ -99,6 +134,17 @@ namespace Interpreter.Collections
                 sum += hash[i] * mul;
             }
             return (int)(Math.Abs(sum) % arraySize);
+        }
+
+        public void Print()
+        {
+            foreach (LinkedList<KeyValuePair<TKey, TValue>> list in _table)
+            {
+                foreach (KeyValuePair<TKey, TValue> pair in list ?? new LinkedList<KeyValuePair<TKey, TValue>>())
+                {
+                    Console.WriteLine($"{pair.Key} == {pair.Value}");
+                }
+            }
         }
     }
 }
