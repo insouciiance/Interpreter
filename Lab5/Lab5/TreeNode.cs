@@ -1,34 +1,25 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Interpreter.Collections;
 
 namespace Lab5
 {
-    public delegate void TreeVisitor<T>(T nodeData);
-
-    public class TreeNode<T>
+    internal record TreeNode(double? Value, Operator? Operation, TreeNode LeftNode, TreeNode RightNode)
     {
-        private readonly T _data;
-        private readonly LinkedList<TreeNode<T>> _children;
-
-        public TreeNode(T data)
+        public double Evaluate()
         {
-            _data = data;
-            _children = new LinkedList<TreeNode<T>>();
-        }
+            if (Value != null)
+            {
+                return (double)Value;
+            }
 
-        public void AddChild(T data)
-        {
-            _children.AddFirst(new TreeNode<T>(data));
-        }
-
-        public TreeNode<T> GetChild(int i) =>
-            _children.FirstOrDefault(n => --i == 0);
-
-        public void Traverse(TreeNode<T> node, TreeVisitor<T> visitor)
-        {
-            visitor(node._data);
-            foreach (TreeNode<T> kid in node._children)
-                Traverse(kid, visitor);
+            return Operation switch
+            {
+                Operator.Plus => LeftNode.Evaluate() + RightNode.Evaluate(),
+                Operator.Minus => LeftNode.Evaluate() - RightNode.Evaluate(),
+                Operator.Multiply => LeftNode.Evaluate() * RightNode.Evaluate(),
+                Operator.Divide => LeftNode.Evaluate() / RightNode.Evaluate()
+            };
         }
     }
 }
