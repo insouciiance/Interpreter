@@ -7,7 +7,7 @@ namespace Lab5
     {
         static void Main(string[] args)
         {
-            Hashtable<int, int> ht = new Hashtable<int, int>();
+            
         }
     }
 }

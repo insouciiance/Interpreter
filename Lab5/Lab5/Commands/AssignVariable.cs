@@ -3,20 +3,20 @@
     public class AssignVariable<T> : IVisitable,IParent
     {
 
-        private string name;
-        private T value;
+        private string _name;
+        private T _value;
 
         public AssignVariable(string name,T value)
         {
-            this.value = value;
-            this.name = name;
+            this._value = value;
+            this._name = name;
         }
 
         public IVisitable Next { get; set; }
         
         public void Visit()
         {
-            VariablePool.Instance.SetValue(name,value);
+            VariablePool.Instance.SetValue(_name,_value);
         }
 
     }
