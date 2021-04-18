@@ -8,9 +8,12 @@ namespace Lab5
 {
     internal enum Operator
     {
-        Plus,
-        Minus,
-        Multiply,
-        Divide
+        Plus = '+',
+        Minus = '-',
+        Multiply = '*',
+        Divide = '/',
+        Pow = '^',
+        LeftParentheses = '(',
+        RightParentheses = ')'
     }
 }
