@@ -8,8 +8,8 @@
 
         public AssignVariable(string name,T value)
         {
-            this._value = value;
-            this._name = name;
+            _value = value;
+            _name = name;
         }
 
         public IVisitable Next { get; set; }
