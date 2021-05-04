@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Lab5
 {
-    internal enum Operator
+    internal enum NodeType
     {
-        Plus,
-        Minus,
-        Multiply,
-        Divide,
-        Pow,
+        Value,
+        Variable,
+        Operator,
+        Statement,
+        StatementList
     }
 }

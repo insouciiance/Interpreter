@@ -8,7 +8,9 @@ namespace Lab5
 {
     internal class SISharpParser
     {
-        private readonly Dictionary<string, int> _operators = new()
+        public readonly SyntaxTreeNode Head = new(NodeType.StatementList, null);
+
+        private static readonly Dictionary<string, int> Operators = new()
         {
             ["("] = 1,
             [")"] = 1,
@@ -19,34 +21,63 @@ namespace Lab5
             ["-"] = 4,
         };
 
-        public TreeNode BuildAbstractSyntaxTree(string expression)
+        public void ParseLine(string line)
         {
-            string[] splitExpression = SplitExpression(expression);
-            string[] postfixExpression = ConvertToPostfix(splitExpression);
+            Head.AddChild(BuildLineNode(line));
+        }
 
-            Stack<TreeNode> nodes = new();
+        private SyntaxTreeNode BuildLineNode(string line)
+        {
+            LineType lineType = DiscernLineType(line);
+            return lineType switch
+            {
+                LineType.Statement => BuildStatementNode(line),
+                LineType.Assignment => BuildAssignmentNode(line),
+                LineType.Expression => BuildExpressionNode(line)
+            };
+        }
+
+        private SyntaxTreeNode BuildStatementNode(string line)
+        {
+            return null;
+        }
+
+        private SyntaxTreeNode BuildAssignmentNode(string line)
+        {
+            return null;
+        }
+
+        private SyntaxTreeNode BuildExpressionNode(string line)
+        {
+            string[] postfixExpression = ExpressionConverter.ConvertToPostfix(line);
+            Stack<SyntaxTreeNode> nodes = new();
 
             foreach (string lexeme in postfixExpression)
             {
-                TreeNode newNode;
+                SyntaxTreeNode newNode;
 
                 switch (lexeme)
                 {
-                    case string op when _operators.ContainsKey(op):
+                    case string s when double.TryParse(s, out double d):
+                        newNode = new SyntaxTreeNode(NodeType.Value, new(d));
+                        nodes.Push(newNode);
+                        break;
+                    case string op when Operators.ContainsKey(op):
                         Operator operation = op switch
                         {
                             "+" => Operator.Plus,
                             "-" => Operator.Minus,
                             "*" => Operator.Multiply,
                             "/" => Operator.Divide,
+                            "**" => Operator.Pow
                         };
-                        TreeNode rightNode = nodes.Pop();
-                        TreeNode leftNode = nodes.Pop();
-                        newNode = new TreeNode(null, operation, leftNode, rightNode);
-                        nodes.Push(newNode);
-                        break;
-                    case string s when double.TryParse(s, out double d):
-                        newNode = new TreeNode(d, null, null, null);
+                        SyntaxTreeNode rightNode = nodes.Pop();
+                        SyntaxTreeNode leftNode = nodes.Pop();
+                        newNode = new SyntaxTreeNode(
+                            NodeType.Operator, 
+                            new(operation),
+                            leftNode, 
+                            rightNode);
                         nodes.Push(newNode);
                         break;
                 }
@@ -55,54 +86,20 @@ namespace Lab5
             return nodes.Pop();
         }
 
-        private string[] ConvertToPostfix(string[] expression)
+
+        private LineType DiscernLineType(string line)
         {
-            List<string> postfixExpression = new List<string>();
-            Stack<string> currentOperators = new Stack<string>();
-
-            foreach (string lexeme in expression)
+            if (line.Split().Contains("="))
             {
-                if (!_operators.ContainsKey(lexeme))
-                {
-                    postfixExpression.Add(lexeme);
-                }
-                else
-                {
-                    while (currentOperators.Any() && _operators[currentOperators.Peek()] <= _operators[lexeme])
-                    {
-                        postfixExpression.Add(currentOperators.Pop());
-                    }
-
-                    currentOperators.Push(lexeme);
-                }
+                return LineType.Assignment;
             }
 
-            while (currentOperators.Any())
+            if (line.Contains("if"))
             {
-                postfixExpression.Add(currentOperators.Pop());
+                return LineType.Statement;
             }
 
-            return postfixExpression.ToArray();
-        }
-
-        private string[] SplitExpression(string expression)
-        {
-            string[] operands = expression.Split(_operators.Keys.ToArray(), StringSplitOptions.TrimEntries);
-            Queue<string> expressionOperators = new (expression.Split(operands, StringSplitOptions.TrimEntries));
-
-            List<string> splitExpression = new();
-
-            foreach (string operand in operands)
-            {
-                splitExpression.Add(operand);
-
-                if (expressionOperators.Count > 0)
-                {
-                    splitExpression.Add(expressionOperators.Dequeue().ToString());
-                }
-            }
-
-            return splitExpression.ToArray();
+            return LineType.Expression;
         }
     }
 }

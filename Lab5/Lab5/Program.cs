@@ -7,8 +7,11 @@ namespace Lab5
     {
         static void Main(string[] args)
         {
-            new SISharpInterpreter().Execute(Console.ReadLine());
-            Console.ReadKey();
+            SISharpInterpreter interpreter = new();
+            while (true)
+            {
+                interpreter.Execute(Console.ReadLine());
+            }
         }
     }
 }
