@@ -1,17 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Interpreter.Collections;
 
 namespace Lab5
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            SISharpInterpreter interpreter = new();
-            while (true)
-            {
-                interpreter.Execute(Console.ReadLine());
-            }
+            using SISharpReader reader = new(args[0]);
+            Console.WriteLine(await reader.ExecuteAsync());
+            Console.ReadKey();
         }
     }
 }

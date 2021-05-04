@@ -33,13 +33,17 @@ namespace Lab5
             {
                 LineType.Statement => BuildStatementNode(line),
                 LineType.Assignment => BuildAssignmentNode(line),
-                LineType.Expression => BuildExpressionNode(line)
+                LineType.Expression => BuildExpressionNode(line),
+                _ => throw new InvalidOperationException()
             };
         }
 
         private SyntaxTreeNode BuildStatementNode(string line)
         {
-            return null;
+            string[] splitStatement = line.Split(new string[]{"if(", ")=>", "else=>"}, StringSplitOptions.RemoveEmptyEntries);
+            string statementBody = splitStatement[0];
+            string trueBlock = splitStatement[1];
+            string elseBlock = splitStatement[2];
         }
 
         private SyntaxTreeNode BuildAssignmentNode(string line)
@@ -82,7 +86,8 @@ namespace Lab5
                             "-" => Operator.Minus,
                             "*" => Operator.Multiply,
                             "/" => Operator.Divide,
-                            "**" => Operator.Pow
+                            "**" => Operator.Pow,
+                            _ => throw new InvalidOperationException()
                         };
                         SyntaxTreeNode rightNode = nodes.Pop();
                         SyntaxTreeNode leftNode = nodes.Pop();

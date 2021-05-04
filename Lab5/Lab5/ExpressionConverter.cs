@@ -71,7 +71,7 @@ namespace Lab5
 
             foreach (Match match in Regex.Matches(
                 expression,
-                @"([*][*])|([*+/\-)(])|(-?\d+(,\d+)?)|([a-zA-Z_0-9]+)"))
+                @"(-?\d+(,\d+)?)|([*][*])|([*+/\-)(])|([a-zA-Z_0-9]+)"))
             {
                 splitExpression.Add(match.Value);
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Interpreter.Collections;
 
@@ -11,16 +12,17 @@ namespace Lab5
     {
         private readonly Hashtable<string, double> _variables = new ();
 
-        public void Execute(params string[] lines)
+        public double Execute(params string[] lines)
         {
             SISharpParser parser = new ();
 
             foreach (string line in lines)
             {
-                parser.ParseLine(line);
+                string normalizedLine = Regex.Replace(line, @"\s+", "");
+                parser.ParseLine(normalizedLine);
             }
 
-            Console.WriteLine(Traverse(parser.Head));
+            return Traverse(parser.Head);
         }
 
         public double Traverse(SyntaxTreeNode node)
@@ -70,57 +72,18 @@ namespace Lab5
                 Operator op = node.Data.Operator ?? throw new InvalidOperationException();
 
                 SyntaxTreeNode[] children = node.ToArray();
-                double result = Traverse(children[0]);
+                SyntaxTreeNode firstOperand = children[0];
+                SyntaxTreeNode secondOperand = children[1];
 
-                if (op == Operator.Plus)
+                return op switch
                 {
-                    for (int i = 1; i < children.Length; i++)
-                    {
-                        result += Traverse(children[i]);
-                    }
-
-                    return result;
-                }
-
-                if (op == Operator.Minus)
-                {
-                    for (int i = 1; i < children.Length; i++)
-                    {
-                        result -= Traverse(children[i]);
-                    }
-
-                    return result;
-                }
-
-                if (op == Operator.Multiply)
-                {
-                    for (int i = 1; i < children.Length; i++)
-                    {
-                        result *= Traverse(children[i]);
-                    }
-
-                    return result;
-                }
-
-                if (op == Operator.Divide)
-                {
-                    for (int i = 1; i < children.Length; i++)
-                    {
-                        result /= Traverse(children[i]);
-                    }
-
-                    return result;
-                }
-
-                if (op == Operator.Pow)
-                {
-                    for (int i = 1; i < children.Length; i++)
-                    {
-                        result = Math.Pow(result, Traverse(children[i]));
-                    }
-
-                    return result;
-                }
+                    Operator.Plus => Traverse(firstOperand) + Traverse(secondOperand),
+                    Operator.Minus => Traverse(firstOperand) - Traverse(secondOperand),
+                    Operator.Multiply => Traverse(firstOperand) * Traverse(secondOperand),
+                    Operator.Divide => Traverse(firstOperand) / Traverse(secondOperand),
+                    Operator.Pow => Math.Pow(Traverse(firstOperand), Traverse(secondOperand)),
+                    _ => throw new InvalidOperationException()
+                };
             }
 
             throw new NotImplementedException();
