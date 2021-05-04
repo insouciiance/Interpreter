@@ -37,6 +37,24 @@ namespace Lab5
                 return Traverse(children[^1]);
             }
 
+            if (node.NodeType == NodeType.Variable)
+            {
+                string variableName = node.Data.Variable;
+
+                try
+                {
+                    _variables[variableName] = Traverse(node.GetChild(0));
+                }
+                catch (KeyNotFoundException)
+                {
+                    _variables.Add(variableName, Traverse(node.GetChild(0)));
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    return _variables[variableName];
+                }
+            }
+
             if (node.NodeType == NodeType.Value)
             {
                 return node.Data.Value ?? throw new InvalidOperationException();

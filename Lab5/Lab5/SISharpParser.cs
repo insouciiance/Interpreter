@@ -44,7 +44,15 @@ namespace Lab5
 
         private SyntaxTreeNode BuildAssignmentNode(string line)
         {
-            return null;
+            string[] splitAssignment = line.Split("=");
+            string variableName = splitAssignment[0];
+            string expression = splitAssignment[1];
+
+            SyntaxTreeNode expressionTree = BuildExpressionNode(expression);
+            SyntaxTreeNode assignmentNode = new (NodeType.Variable, new (variableName));
+            assignmentNode.AddChild(expressionTree);
+
+            return assignmentNode;
         }
 
         private SyntaxTreeNode BuildExpressionNode(string line)
@@ -80,6 +88,10 @@ namespace Lab5
                             rightNode);
                         nodes.Push(newNode);
                         break;
+                    case string variable:
+                        newNode = new SyntaxTreeNode(NodeType.Variable, new(variable));
+                        nodes.Push(newNode);
+                        break;
                 }
             }
 
@@ -89,7 +101,7 @@ namespace Lab5
 
         private LineType DiscernLineType(string line)
         {
-            if (line.Split().Contains("="))
+            if (line.Contains("="))
             {
                 return LineType.Assignment;
             }
