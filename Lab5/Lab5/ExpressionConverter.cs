@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Lab5
@@ -22,8 +23,8 @@ namespace Lab5
         public static string[] ConvertToPostfix(string expression)
         {
             string[] splitExpression = SplitExpression(expression);
-            List<string> postfixExpression = new ();
-            Stack<string> currentOperators = new ();
+            List<string> postfixExpression = new();
+            Stack<string> currentOperators = new();
 
             foreach (string lexeme in splitExpression)
             {
@@ -33,7 +34,21 @@ namespace Lab5
                 }
                 else
                 {
-                    while (currentOperators.Any() && Operators[currentOperators.Peek()] <= Operators[lexeme])
+                    if (lexeme == ")")
+                    {
+                        while (currentOperators.Peek() != "(")
+                        {
+                            postfixExpression.Add(currentOperators.Pop());
+                        }
+
+                        currentOperators.Pop();
+
+                        continue;
+                    }
+
+                    while (currentOperators.Any() && 
+                           Operators[currentOperators.Peek()] != 1 && 
+                           Operators[currentOperators.Peek()] <= Operators[lexeme])
                     {
                         postfixExpression.Add(currentOperators.Pop());
                     }
@@ -47,24 +62,16 @@ namespace Lab5
                 postfixExpression.Add(currentOperators.Pop());
             }
 
-            return postfixExpression.ToArray();
+            return postfixExpression.Where(c => c != "(" && c != ")").ToArray();
         }
 
         private static string[] SplitExpression(string expression)
         {
-            string[] operands = expression.Split(Operators.Keys.ToArray(), StringSplitOptions.RemoveEmptyEntries);
-            Queue<string> expressionOperators = new(expression.Split(operands, StringSplitOptions.RemoveEmptyEntries));
+            List<string> splitExpression = new List<string>();
 
-            List<string> splitExpression = new();
-
-            foreach (string operand in operands)
+            foreach (Match match in Regex.Matches(expression, @"([*][*])|([*+/\-)(])|([0-9a-zA-Z_]+)"))
             {
-                splitExpression.Add(operand);
-
-                if (expressionOperators.Count > 0)
-                {
-                    splitExpression.Add(expressionOperators.Dequeue());
-                }
+                splitExpression.Add(match.Value);
             }
 
             return splitExpression.ToArray();

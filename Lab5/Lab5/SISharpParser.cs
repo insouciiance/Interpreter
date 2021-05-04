@@ -45,12 +45,17 @@ namespace Lab5
         private SyntaxTreeNode BuildAssignmentNode(string line)
         {
             string[] splitAssignment = line.Split("=");
-            string variableName = splitAssignment[0];
-            string expression = splitAssignment[1];
 
-            SyntaxTreeNode expressionTree = BuildExpressionNode(expression);
-            SyntaxTreeNode assignmentNode = new (NodeType.Variable, new (variableName));
+            SyntaxTreeNode expressionTree = BuildExpressionNode(splitAssignment[^1]);
+            SyntaxTreeNode assignmentNode = new(NodeType.Variable, new (splitAssignment[^2]));
             assignmentNode.AddChild(expressionTree);
+
+            for (int i = splitAssignment.Length - 3; i >= 0; i--)
+            {
+                SyntaxTreeNode newAssignmentNode = new(NodeType.Variable, new(splitAssignment[i])); ;
+                newAssignmentNode.AddChild(assignmentNode);
+                assignmentNode = newAssignmentNode;
+            }
 
             return assignmentNode;
         }
