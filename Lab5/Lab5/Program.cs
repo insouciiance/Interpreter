@@ -6,11 +6,13 @@ namespace Lab5
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            using SISharpReader reader = new(args[0]);
-            Console.WriteLine(await reader.ExecuteAsync());
-            Console.ReadKey();
+            SISharpInterpreter interpreter = new ();
+            while (true)
+            {
+                Console.WriteLine(interpreter.Execute(Console.ReadLine()));
+            }
         }
     }
 }

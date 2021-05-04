@@ -67,11 +67,11 @@ namespace Lab5
 
         private static string[] SplitExpression(string expression)
         {
-            List<string> splitExpression = new List<string>();
+            List<string> splitExpression = new ();
 
             foreach (Match match in Regex.Matches(
                 expression,
-                @"(-?\d+(,\d+)?)|([*][*])|([*+/\-)(])|([a-zA-Z_0-9]+)"))
+                @"([*][*])|([*+/)(-])|(-\d+(,\d+)?)|([a-zA-Z_0-9]+)"))
             {
                 splitExpression.Add(match.Value);
             }

@@ -10,11 +10,11 @@ namespace Lab5
 {
     internal class SISharpInterpreter
     {
-        private readonly Hashtable<string, double> _variables = new ();
+        private readonly Hashtable<string, double> _variables = new();
 
         public double Execute(params string[] lines)
         {
-            SISharpParser parser = new ();
+            SISharpParser parser = new();
 
             foreach (string line in lines)
             {
@@ -43,28 +43,24 @@ namespace Lab5
             {
                 string variableName = node.Data.Variable;
 
-                try
+                if (node.Any())
                 {
-                    _variables[variableName] = Traverse(node.GetChild(0));
+                    try
+                    {
+                        _variables[variableName] = Traverse(node.GetChild(0));
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        _variables.Add(variableName, Traverse(node.GetChild(0)));
+                    }
                 }
-                catch (KeyNotFoundException)
-                {
-                    _variables.Add(variableName, Traverse(node.GetChild(0)));
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    return _variables[variableName];
-                }
+
+                return _variables[variableName];
             }
 
             if (node.NodeType == NodeType.Value)
             {
                 return node.Data.Value ?? throw new InvalidOperationException();
-            }
-
-            if (node.NodeType == NodeType.Variable)
-            {
-                return _variables[node.Data.Variable];
             }
 
             if (node.NodeType == NodeType.Operator)
@@ -84,6 +80,26 @@ namespace Lab5
                     Operator.Pow => Math.Pow(Traverse(firstOperand), Traverse(secondOperand)),
                     _ => throw new InvalidOperationException()
                 };
+            }
+
+            if (node.NodeType == NodeType.IfStatement)
+            {
+                double conditionResult = Traverse(node.FirstOrDefault(child =>
+                    child.NodeType == NodeType.IfCondition));
+
+                if (conditionResult != 0)
+                {
+                    return Traverse(node.FirstOrDefault(child =>
+                        child.NodeType == NodeType.If));
+                }
+
+                return Traverse(node.FirstOrDefault(child =>
+                    child.NodeType == NodeType.Else));
+            }
+
+            if (node.NodeType is NodeType.IfCondition or NodeType.If or NodeType.Else)
+            {
+                return Traverse(node.GetChild(0));
             }
 
             throw new NotImplementedException();

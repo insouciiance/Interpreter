@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,36 @@ namespace Lab5
             string statementBody = splitStatement[0];
             string trueBlock = splitStatement[1];
             string elseBlock = splitStatement[2];
+
+            SyntaxTreeNode statementNode = new(NodeType.IfStatement, null);
+
+            SyntaxTreeNode conditionNode = new (NodeType.IfCondition, null);
+            conditionNode.AddChild(BuildExpressionNode(statementBody));
+
+            SyntaxTreeNode trueNode = new SyntaxTreeNode(NodeType.If, null);
+            LineType trueNodeLineType = DiscernLineType(trueBlock);
+            trueNode.AddChild(trueNodeLineType switch
+            {
+                LineType.Expression => BuildExpressionNode(trueBlock),
+                LineType.Assignment => BuildAssignmentNode(trueBlock),
+                LineType.Statement => BuildStatementNode(trueBlock),
+                _ => throw new InvalidOperationException()
+            });
+
+            SyntaxTreeNode falseNode = new(NodeType.Else, null);
+            LineType falseNodeLineType = DiscernLineType(trueBlock);
+            trueNode.AddChild(falseNodeLineType switch
+            {
+                LineType.Expression => BuildExpressionNode(elseBlock),
+                LineType.Assignment => BuildAssignmentNode(elseBlock),
+                LineType.Statement => BuildStatementNode(elseBlock),
+                _ => throw new InvalidOperationException()
+            });
+            statementNode.AddChild(conditionNode);
+            statementNode.AddChild(trueNode);
+            statementNode.AddChild(falseNode);
+
+            return statementNode;
         }
 
         private SyntaxTreeNode BuildAssignmentNode(string line)
@@ -111,14 +142,14 @@ namespace Lab5
 
         private LineType DiscernLineType(string line)
         {
-            if (line.Contains("="))
-            {
-                return LineType.Assignment;
-            }
-
             if (line.Contains("if"))
             {
                 return LineType.Statement;
+            }
+
+            if (line.Contains("="))
+            {
+                return LineType.Assignment;
             }
 
             return LineType.Expression;
