@@ -69,7 +69,9 @@ namespace Lab5
         {
             List<string> splitExpression = new List<string>();
 
-            foreach (Match match in Regex.Matches(expression, @"([*][*])|([*+/\-)(])|([0-9a-zA-Z_]+)"))
+            foreach (Match match in Regex.Matches(
+                expression,
+                @"([*][*])|([*+/\-)(])|(-?\d+(,\d+)?)|([a-zA-Z_0-9]+)"))
             {
                 splitExpression.Add(match.Value);
             }
