@@ -13,7 +13,8 @@ namespace Lab5
 
         public void ParseLine(string line)
         {
-            Head.AddChild(SyntaxTreeNodeBuilder.BuildLineNode(line));
+            SyntaxTreeNodeBuilder builder = new (line);
+            Head.AddChild(builder.Build());
         }
     }
 }
