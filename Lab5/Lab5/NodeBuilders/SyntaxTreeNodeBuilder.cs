@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab5.NodeBuilders;
 
 namespace Lab5
 {
@@ -21,6 +22,7 @@ namespace Lab5
                 LineType.IfStatement => new IfStatementNodeBuilder(_line),
                 LineType.Assignment => new AssignmentNodeBuilder(_line),
                 LineType.Expression => new ExpressionNodeBuilder(_line),
+                LineType.WhileStatement => new WhileStatementNodeBuilder(_line),
                 _ => throw new InvalidOperationException()
             };
 
@@ -29,6 +31,11 @@ namespace Lab5
 
         private static LineType DiscernLineType(string line)
         {
+            if (line.Contains("while"))
+            {
+                return LineType.WhileStatement;
+            }
+
             if (line.Contains("if"))
             {
                 return LineType.IfStatement;

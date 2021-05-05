@@ -9,17 +9,11 @@ namespace Lab5
         static void Main(string[] args)
         {
             SISharpInterpreter interpreter = new ();
-            string code = string.Empty;
 
-            string newLine;
-            while ((newLine = Console.ReadLine()) != string.Empty)
+            while (true)
             {
-                code += newLine;
+                Console.WriteLine(interpreter.Execute(Console.ReadLine()));
             }
-
-            Console.WriteLine(interpreter.Execute(code));
-
-            Console.ReadKey();
         }
     }
 }

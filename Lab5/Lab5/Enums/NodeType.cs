@@ -11,10 +11,11 @@ namespace Lab5
         Value,
         Variable,
         Operator,
-        IfStatement,
-        IfCondition,
-        IfConditionTrue,
-        IfConditionFalse,
-        StatementList
+        Condition,
+        ConditionTrue,
+        ConditionFalse,
+        StatementList,
+        WhileStatement,
+        IfStatement
     }
 }

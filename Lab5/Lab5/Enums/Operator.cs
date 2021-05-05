@@ -13,5 +13,7 @@ namespace Lab5
         Multiply,
         Divide,
         Pow,
+        MoreThan,
+        LessThan
     }
 }

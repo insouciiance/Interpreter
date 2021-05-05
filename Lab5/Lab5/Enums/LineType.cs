@@ -9,6 +9,7 @@ namespace Lab5
     internal enum LineType
     {
         IfStatement,
+        WhileStatement,
         Expression,
         Assignment
     }

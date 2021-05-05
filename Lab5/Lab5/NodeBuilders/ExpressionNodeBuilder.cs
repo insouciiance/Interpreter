@@ -10,8 +10,10 @@ namespace Lab5
     {
         private static readonly Dictionary<string, int> Operators = new()
         {
-            ["("] = 1,
-            [")"] = 1,
+            ["("] = 0,
+            [")"] = 0,
+            [">"] = 1,
+            ["<"] = 1,
             ["**"] = 2,
             ["*"] = 3,
             ["/"] = 3,
@@ -46,6 +48,8 @@ namespace Lab5
                             "*" => Operator.Multiply,
                             "/" => Operator.Divide,
                             "**" => Operator.Pow,
+                            ">" => Operator.MoreThan,
+                            "<" => Operator.LessThan,
                             _ => throw new InvalidOperationException()
                         };
                         SyntaxTreeNode rightNode = nodes.Pop();

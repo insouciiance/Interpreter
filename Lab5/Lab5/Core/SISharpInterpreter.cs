@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Interpreter.Collections;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Lab5
 {
@@ -12,15 +13,10 @@ namespace Lab5
     {
         private readonly Hashtable<string, double> _variables = new();
         private readonly SISharpParser _parser = new();
-
+        
         public double Execute(string code)
         {
             string[] lines = code.Split(';');
-            return Execute(lines);
-        }
-
-        public double Execute(params string[] lines)
-        {
             foreach (string line in lines)
             {
                 string normalizedLine = Regex.Replace(line, @"\s+", "");
@@ -87,6 +83,8 @@ namespace Lab5
                         Operator.Multiply => Traverse(firstOperand) * Traverse(secondOperand),
                         Operator.Divide => Traverse(firstOperand) / Traverse(secondOperand),
                         Operator.Pow => Math.Pow(Traverse(firstOperand), Traverse(secondOperand)),
+                        Operator.MoreThan => Traverse(firstOperand) > Traverse(secondOperand) ? 1 : 0,
+                        Operator.LessThan => Traverse(firstOperand) < Traverse(secondOperand) ? 1 : 0,
                         _ => throw new InvalidOperationException()
                     };
                 }
@@ -94,15 +92,27 @@ namespace Lab5
                 {
                     double conditionResult = Traverse(node.GetChild(0));
 
-                    if (conditionResult != 0)
+                    return Traverse(conditionResult != 0 ? node.GetChild(1) : node.GetChild(2));
+                }
+                case NodeType.WhileStatement:
+                {
+                    double whileResult = 0;
+
+                    while (Traverse(node.GetChild(0)) != 0)
                     {
-                        return Traverse(node.GetChild(1));
+                        whileResult = Traverse(node.GetChild(1));
                     }
 
-                    return Traverse(node.GetChild(2));
+                    return whileResult;
                 }
-                case NodeType.IfCondition or NodeType.IfConditionTrue or NodeType.IfConditionFalse:
+                case NodeType.Condition:
                     return Traverse(node.GetChild(0));
+                case NodeType.ConditionTrue or NodeType.ConditionFalse:
+                    for (int i = 0; i < node.Count() - 1; i++)
+                    {
+                        Traverse(node.GetChild(i));
+                    }
+                    return Traverse(node.Last());
                 default:
                     throw new NotImplementedException();
             }
