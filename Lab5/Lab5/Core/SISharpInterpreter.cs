@@ -85,6 +85,7 @@ namespace Lab5
                         Operator.Pow => Math.Pow(Traverse(firstOperand), Traverse(secondOperand)),
                         Operator.MoreThan => Traverse(firstOperand) > Traverse(secondOperand) ? 1 : 0,
                         Operator.LessThan => Traverse(firstOperand) < Traverse(secondOperand) ? 1 : 0,
+                        Operator.DivideWithRemainder => Traverse(firstOperand) % Traverse(secondOperand),
                         _ => throw new InvalidOperationException()
                     };
                 }

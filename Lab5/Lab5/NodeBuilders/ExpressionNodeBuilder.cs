@@ -17,6 +17,7 @@ namespace Lab5
             ["**"] = 2,
             ["*"] = 3,
             ["/"] = 3,
+            ["%"] = 3,
             ["+"] = 4,
             ["-"] = 4,
         };
@@ -50,6 +51,7 @@ namespace Lab5
                             "**" => Operator.Pow,
                             ">" => Operator.MoreThan,
                             "<" => Operator.LessThan,
+                            "%" => Operator.DivideWithRemainder,
                             _ => throw new InvalidOperationException()
                         };
                         SyntaxTreeNode rightNode = nodes.Pop();

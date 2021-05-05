@@ -18,6 +18,7 @@ namespace Lab5
             ["**"] = 2,
             ["*"] = 3,
             ["/"] = 3,
+            ["%"] = 3,
             ["+"] = 4,
             ["-"] = 4,
         };
@@ -82,7 +83,7 @@ namespace Lab5
 
             foreach (Match match in Regex.Matches(
                 expression,
-                @"([*][*])|([><*+/)(])|((?<=[a-zA-Z_0-9]+)-)|(-?\d+(,\d+)?)|([a-zA-Z_0-9]+)"))
+                @"([*][*])|([><*%+/)(])|((?<=[a-zA-Z_0-9]+)-)|(-?\d+(,\d+)?)|([a-zA-Z_0-9]+)"))
             {
                 splitExpression.Add(match.Value);
             }

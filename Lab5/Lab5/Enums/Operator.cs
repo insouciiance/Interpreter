@@ -14,6 +14,7 @@ namespace Lab5
         Divide,
         Pow,
         MoreThan,
-        LessThan
+        LessThan,
+        DivideWithRemainder
     }
 }
