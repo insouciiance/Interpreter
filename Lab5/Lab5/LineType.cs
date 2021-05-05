@@ -8,7 +8,7 @@ namespace Lab5
 {
     internal enum LineType
     {
-        Statement,
+        IfStatement,
         Expression,
         Assignment
     }

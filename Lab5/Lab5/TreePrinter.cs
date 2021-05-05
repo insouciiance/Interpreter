@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab5
 {
-    class TreePrinter
+    internal static class SyntaxTreePrinter
     {
         public static void Print(SyntaxTreeNode n)
         {

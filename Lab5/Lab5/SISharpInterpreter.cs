@@ -13,9 +13,14 @@ namespace Lab5
         private readonly Hashtable<string, double> _variables = new();
         private readonly SISharpParser _parser = new();
 
+        public double Execute(string code)
+        {
+            string[] lines = code.Split(';');
+            return Execute(lines);
+        }
+
         public double Execute(params string[] lines)
         {
-
             foreach (string line in lines)
             {
                 string normalizedLine = Regex.Replace(line, @"\s+", "");
@@ -25,7 +30,7 @@ namespace Lab5
                 _parser.ParseLine(normalizedLine);
             }
 
-            TreePrinter.Print(_parser.Head);
+            SyntaxTreePrinter.Print(_parser.Head);
 
             return Traverse(_parser.Head);
         }

@@ -24,22 +24,21 @@ namespace Lab5
             LineType lineType = DiscernLineType(line);
             return lineType switch
             {
-                LineType.Statement => BuildStatementNode(line),
+                LineType.IfStatement => BuildIfStatementNode(line),
                 LineType.Assignment => BuildAssignmentNode(line),
                 LineType.Expression => BuildExpressionNode(line),
                 _ => throw new InvalidOperationException()
             };
         }
 
-        private static SyntaxTreeNode BuildStatementNode(string line)
+        private static SyntaxTreeNode BuildIfStatementNode(string line)
         {
             string[] splitStatement = line.Split(
-                new string[] { "if(", ")=>(", ")else=>(", ")" },
+                new string[] { "if(", "){", "}else{", "}" },
                 StringSplitOptions.RemoveEmptyEntries);
 
             string statementBody = splitStatement[0];
             string trueBlock = splitStatement[1];
-            string elseBlock = splitStatement[2];
 
             SyntaxTreeNode statementNode = new(NodeType.IfStatement, null);
 
@@ -49,11 +48,14 @@ namespace Lab5
             SyntaxTreeNode trueNode = new(NodeType.IfConditionTrue, null);
             trueNode.AddChild(BuildLineNode(trueBlock));
 
-            SyntaxTreeNode falseNode = new(NodeType.IfConditionFalse, null);
-            falseNode.AddChild(BuildLineNode(elseBlock));
-
             statementNode.AddChild(conditionNode);
             statementNode.AddChild(trueNode);
+
+            if (splitStatement.Length <= 2) return statementNode;
+
+            string elseBlock = splitStatement[2];
+            SyntaxTreeNode falseNode = new(NodeType.IfConditionFalse, null);
+            falseNode.AddChild(BuildLineNode(elseBlock));
             statementNode.AddChild(falseNode);
 
             return statementNode;
@@ -125,7 +127,7 @@ namespace Lab5
         {
             if (line.Contains("if"))
             {
-                return LineType.Statement;
+                return LineType.IfStatement;
             }
 
             if (line.Contains("="))
