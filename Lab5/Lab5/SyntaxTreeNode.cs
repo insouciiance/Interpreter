@@ -30,5 +30,10 @@ namespace Lab5
             _children.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+        public override string ToString()
+        {
+            return $"[{NodeType} {Data?.Value}{Data?.Operator}{Data?.Variable}]";
+        }
     }
 }

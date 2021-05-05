@@ -34,7 +34,7 @@ namespace Lab5
         private static SyntaxTreeNode BuildStatementNode(string line)
         {
             string[] splitStatement = line.Split(
-                new string[] { "if(", ")=>", "else=>" },
+                new string[] { "if(", ")=>(", ")else=>(", ")" },
                 StringSplitOptions.RemoveEmptyEntries);
 
             string statementBody = splitStatement[0];

@@ -11,10 +11,10 @@ namespace Lab5
     internal class SISharpInterpreter
     {
         private readonly Hashtable<string, double> _variables = new();
+        private readonly SISharpParser _parser = new();
 
         public double Execute(params string[] lines)
         {
-            SISharpParser parser = new();
 
             foreach (string line in lines)
             {
@@ -22,10 +22,12 @@ namespace Lab5
 
                 if(normalizedLine == string.Empty) continue;
 
-                parser.ParseLine(normalizedLine);
+                _parser.ParseLine(normalizedLine);
             }
 
-            return Traverse(parser.Head);
+            TreePrinter.Print(_parser.Head);
+
+            return Traverse(_parser.Head);
         }
 
         public double Traverse(SyntaxTreeNode node)
