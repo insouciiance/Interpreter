@@ -13,6 +13,8 @@ namespace Lab5
     {
         private readonly Hashtable<string, double> _variables = new();
         private readonly SISharpParser _parser = new();
+
+        public static readonly VariableStorage Storage = new();
         
         public double Execute(string code)
         {
