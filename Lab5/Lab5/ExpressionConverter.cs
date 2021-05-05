@@ -31,30 +31,29 @@ namespace Lab5
                 if (!Operators.ContainsKey(lexeme))
                 {
                     postfixExpression.Add(lexeme);
+                    continue;
                 }
-                else
+
+                if (lexeme == ")")
                 {
-                    if (lexeme == ")")
-                    {
-                        while (currentOperators.Peek() != "(")
-                        {
-                            postfixExpression.Add(currentOperators.Pop());
-                        }
-
-                        currentOperators.Pop();
-
-                        continue;
-                    }
-
-                    while (currentOperators.Any() && 
-                           Operators[currentOperators.Peek()] != 1 && 
-                           Operators[currentOperators.Peek()] <= Operators[lexeme])
+                    while (currentOperators.Peek() != "(")
                     {
                         postfixExpression.Add(currentOperators.Pop());
                     }
 
-                    currentOperators.Push(lexeme);
+                    currentOperators.Pop();
+
+                    continue;
                 }
+
+                while (currentOperators.Any() &&
+                       currentOperators.Peek() != "(" &&
+                       Operators[currentOperators.Peek()] <= Operators[lexeme])
+                {
+                    postfixExpression.Add(currentOperators.Pop());
+                }
+
+                currentOperators.Push(lexeme);
             }
 
             while (currentOperators.Any())
@@ -62,12 +61,12 @@ namespace Lab5
                 postfixExpression.Add(currentOperators.Pop());
             }
 
-            return postfixExpression.Where(c => c != "(" && c != ")").ToArray();
+            return postfixExpression.ToArray();
         }
 
         private static string[] SplitExpression(string expression)
         {
-            List<string> splitExpression = new ();
+            List<string> splitExpression = new();
 
             foreach (Match match in Regex.Matches(
                 expression,

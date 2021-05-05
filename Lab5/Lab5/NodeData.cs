@@ -12,7 +12,6 @@ namespace Lab5
         public double? Value { get; }
         public Operator? Operator { get; }
 
-        public NodeData(){}
         public NodeData(string variable) => Variable = variable;
         public NodeData(double value) => Value = value;
         public NodeData(Operator op) => Operator = op;

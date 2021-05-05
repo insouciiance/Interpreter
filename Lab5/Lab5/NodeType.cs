@@ -13,8 +13,8 @@ namespace Lab5
         Operator,
         IfStatement,
         IfCondition,
-        If,
-        Else,
+        IfConditionTrue,
+        IfConditionFalse,
         StatementList
     }
 }

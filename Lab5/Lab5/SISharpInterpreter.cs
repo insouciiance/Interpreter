@@ -19,6 +19,9 @@ namespace Lab5
             foreach (string line in lines)
             {
                 string normalizedLine = Regex.Replace(line, @"\s+", "");
+
+                if(normalizedLine == string.Empty) continue;
+
                 parser.ParseLine(normalizedLine);
             }
 
@@ -27,24 +30,28 @@ namespace Lab5
 
         public double Traverse(SyntaxTreeNode node)
         {
-            if (node.NodeType == NodeType.StatementList)
+            switch (node.NodeType)
             {
-                SyntaxTreeNode[] children = node.ToArray();
-
-                for (int i = 0; i < children.Length - 1; i++)
+                case NodeType.StatementList:
                 {
-                    Traverse(children[i]);
+                    SyntaxTreeNode[] children = node.ToArray();
+
+                    if (children.Length == 0)
+                        return 0;
+
+                    for (int i = 0; i < children.Length - 1; i++)
+                    {
+                        Traverse(children[i]);
+                    }
+
+                    return Traverse(children[^1]);
                 }
-
-                return Traverse(children[^1]);
-            }
-
-            if (node.NodeType == NodeType.Variable)
-            {
-                string variableName = node.Data.Variable;
-
-                if (node.Any())
+                case NodeType.Variable:
                 {
+                    string variableName = node.Data.Variable;
+
+                    if (!node.Any()) return _variables[variableName];
+
                     try
                     {
                         _variables[variableName] = Traverse(node.GetChild(0));
@@ -53,56 +60,45 @@ namespace Lab5
                     {
                         _variables.Add(variableName, Traverse(node.GetChild(0)));
                     }
+
+                    return _variables[variableName];
                 }
-
-                return _variables[variableName];
-            }
-
-            if (node.NodeType == NodeType.Value)
-            {
-                return node.Data.Value ?? throw new InvalidOperationException();
-            }
-
-            if (node.NodeType == NodeType.Operator)
-            {
-                Operator op = node.Data.Operator ?? throw new InvalidOperationException();
-
-                SyntaxTreeNode[] children = node.ToArray();
-                SyntaxTreeNode firstOperand = children[0];
-                SyntaxTreeNode secondOperand = children[1];
-
-                return op switch
+                case NodeType.Value:
+                    return node.Data.Value ?? throw new InvalidOperationException();
+                case NodeType.Operator:
                 {
-                    Operator.Plus => Traverse(firstOperand) + Traverse(secondOperand),
-                    Operator.Minus => Traverse(firstOperand) - Traverse(secondOperand),
-                    Operator.Multiply => Traverse(firstOperand) * Traverse(secondOperand),
-                    Operator.Divide => Traverse(firstOperand) / Traverse(secondOperand),
-                    Operator.Pow => Math.Pow(Traverse(firstOperand), Traverse(secondOperand)),
-                    _ => throw new InvalidOperationException()
-                };
-            }
+                    Operator op = node.Data.Operator ?? throw new InvalidOperationException();
 
-            if (node.NodeType == NodeType.IfStatement)
-            {
-                double conditionResult = Traverse(node.FirstOrDefault(child =>
-                    child.NodeType == NodeType.IfCondition));
+                    SyntaxTreeNode[] children = node.ToArray();
+                    SyntaxTreeNode firstOperand = children[0];
+                    SyntaxTreeNode secondOperand = children[1];
 
-                if (conditionResult != 0)
-                {
-                    return Traverse(node.FirstOrDefault(child =>
-                        child.NodeType == NodeType.If));
+                    return op switch
+                    {
+                        Operator.Plus => Traverse(firstOperand) + Traverse(secondOperand),
+                        Operator.Minus => Traverse(firstOperand) - Traverse(secondOperand),
+                        Operator.Multiply => Traverse(firstOperand) * Traverse(secondOperand),
+                        Operator.Divide => Traverse(firstOperand) / Traverse(secondOperand),
+                        Operator.Pow => Math.Pow(Traverse(firstOperand), Traverse(secondOperand)),
+                        _ => throw new InvalidOperationException()
+                    };
                 }
+                case NodeType.IfStatement:
+                {
+                    double conditionResult = Traverse(node.GetChild(0));
 
-                return Traverse(node.FirstOrDefault(child =>
-                    child.NodeType == NodeType.Else));
+                    if (conditionResult != 0)
+                    {
+                        return Traverse(node.GetChild(1));
+                    }
+
+                    return Traverse(node.GetChild(2));
+                }
+                case NodeType.IfCondition or NodeType.IfConditionTrue or NodeType.IfConditionFalse:
+                    return Traverse(node.GetChild(0));
+                default:
+                    throw new NotImplementedException();
             }
-
-            if (node.NodeType is NodeType.IfCondition or NodeType.If or NodeType.Else)
-            {
-                return Traverse(node.GetChild(0));
-            }
-
-            throw new NotImplementedException();
         }
     }
 }
