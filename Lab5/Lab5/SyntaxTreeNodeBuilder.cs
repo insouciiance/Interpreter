@@ -44,13 +44,13 @@ namespace Lab5
             SyntaxTreeNode statementNode = new(NodeType.IfStatement, null);
 
             SyntaxTreeNode conditionNode = new(NodeType.IfCondition, null);
-            conditionNode.AddChild(BuildLineNode(trueBlock));
+            conditionNode.AddChild(BuildLineNode(statementBody));
 
             SyntaxTreeNode trueNode = new(NodeType.IfConditionTrue, null);
             trueNode.AddChild(BuildLineNode(trueBlock));
 
             SyntaxTreeNode falseNode = new(NodeType.IfConditionFalse, null);
-            trueNode.AddChild(BuildLineNode(elseBlock));
+            falseNode.AddChild(BuildLineNode(elseBlock));
 
             statementNode.AddChild(conditionNode);
             statementNode.AddChild(trueNode);
