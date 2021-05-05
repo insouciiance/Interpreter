@@ -15,13 +15,16 @@ namespace Lab5
         public SyntaxTreeNode Build()
         {
             LineType lineType = DiscernLineType(_line);
-            return lineType switch
+
+            INodeBuilder builder = lineType switch
             {
-                LineType.IfStatement => new IfStatementNodeBuilder(_line).Build(),
-                LineType.Assignment => new AssignmentNodeBuilder(_line).Build(),
-                LineType.Expression => new ExpressionNodeBuilder(_line).Build(),
+                LineType.IfStatement => new IfStatementNodeBuilder(_line),
+                LineType.Assignment => new AssignmentNodeBuilder(_line),
+                LineType.Expression => new ExpressionNodeBuilder(_line),
                 _ => throw new InvalidOperationException()
             };
+
+            return builder.Build();
         }
 
         private static LineType DiscernLineType(string line)
