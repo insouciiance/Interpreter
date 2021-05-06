@@ -15,7 +15,7 @@ namespace Lab5.NodeBuilders
         public SyntaxTreeNode Build()
         {
             string[] splitLine = _line.Split(
-                new []{"while(", "){", "}"}, 
+                new []{"while", "do"}, 
                 StringSplitOptions.RemoveEmptyEntries);
 
             string condition = splitLine[0];
@@ -27,7 +27,7 @@ namespace Lab5.NodeBuilders
             conditionNode.AddChild(new SyntaxTreeNodeBuilder(condition).Build());
 
             SyntaxTreeNode trueNode = new(NodeType.ConditionTrue, null);
-            string[] trueBlockLines = trueBlock.Split('|');
+            string[] trueBlockLines = trueBlock.Split("|");
 
             foreach (string line in trueBlockLines)
             {

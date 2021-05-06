@@ -15,7 +15,7 @@ namespace Lab5
         public SyntaxTreeNode Build()
         {
             string[] splitStatement = _line.Split(
-                new [] { "if(", "){", "}else{", "}" },
+                new [] { "if", "then", "else" },
                 StringSplitOptions.RemoveEmptyEntries);
 
             string statementBody = splitStatement[0];
@@ -27,7 +27,7 @@ namespace Lab5
             conditionNode.AddChild(new SyntaxTreeNodeBuilder(statementBody).Build());
 
             SyntaxTreeNode trueNode = new(NodeType.ConditionTrue, null);
-            string[] trueBlockLines = trueBlock.Split('|');
+            string[] trueBlockLines = trueBlock.Split("->");
 
             foreach (string line in trueBlockLines)
             {
@@ -40,8 +40,16 @@ namespace Lab5
             if (splitStatement.Length <= 2) return statementNode;
 
             string elseBlock = splitStatement[2];
+            string[] elseBlockLines = elseBlock.Split("->");
+
             SyntaxTreeNode falseNode = new(NodeType.ConditionFalse, null);
             falseNode.AddChild(new SyntaxTreeNodeBuilder(elseBlock).Build());
+
+            foreach (string line in elseBlockLines)
+            {
+                falseNode.AddChild(new SyntaxTreeNodeBuilder(line).Build());
+            }
+
             statementNode.AddChild(falseNode);
 
             return statementNode;

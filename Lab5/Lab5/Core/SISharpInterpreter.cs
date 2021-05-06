@@ -95,7 +95,17 @@ namespace Lab5
                 {
                     double conditionResult = Traverse(node.GetChild(0));
 
-                    return Traverse(conditionResult != 0 ? node.GetChild(1) : node.GetChild(2));
+                    if (conditionResult != 0)
+                    {
+                        return Traverse(node.GetChild(1));
+                    }
+
+                    if (node.Count() > 2)
+                    {
+                        return Traverse(node.GetChild(2));
+                    }
+
+                    return 0;
                 }
                 case NodeType.WhileStatement:
                 {
