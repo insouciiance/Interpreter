@@ -4,8 +4,13 @@ namespace Lab5.SyntaxNodes
 {
     public class VariableNode : ITraversable
     {
-        private string name;
-        
+        private string _name;
+
+        public VariableNode(string name)
+        {
+            _name = name;
+        }
+
         public double Traverse()
         {
             /*if (!node.Any()) return _variables[variableName];
@@ -19,7 +24,7 @@ namespace Lab5.SyntaxNodes
                 _variables.Add(variableName, Traverse(node.GetChild(0)));
             }
             */ 
-            return SISharpInterpreter.Storage.Variables[name];
+            return SISharpInterpreter.Storage.Variables[_name];
         }
     }
 }
