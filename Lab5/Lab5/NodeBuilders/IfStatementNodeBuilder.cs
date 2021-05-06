@@ -43,7 +43,6 @@ namespace Lab5
             string[] elseBlockLines = elseBlock.Split("->");
 
             SyntaxTreeNode falseNode = new(NodeType.ConditionFalse, null);
-            falseNode.AddChild(new SyntaxTreeNodeBuilder(elseBlock).Build());
 
             foreach (string line in elseBlockLines)
             {
