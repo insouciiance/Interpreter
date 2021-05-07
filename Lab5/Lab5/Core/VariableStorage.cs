@@ -6,6 +6,13 @@ namespace Lab5
     {
         private readonly Hashtable<string, double> _variables = new();
 
-        public Hashtable<string, double> Variables => _variables;
+        public void SetVariable(string name,double value)
+        { 
+            _variables.Add(name,value);
+        }
+        public double GetVariable(string name)
+        {
+            return _variables[name];
+        }
     }
 }

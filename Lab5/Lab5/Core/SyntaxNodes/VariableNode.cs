@@ -5,26 +5,19 @@ namespace Lab5.SyntaxNodes
     public class VariableNode : ITraversable
     {
         private string _name;
+        private ITraversable _setter;
 
-        public VariableNode(string name)
+        public VariableNode(string name, ITraversable setter)
         {
             _name = name;
+            _setter = setter;
         }
 
         public double Traverse()
         {
-            /*if (!node.Any()) return _variables[variableName];
-
-            try
-            {
-                _variables[variableName] = Traverse(node.GetChild(0));
-            }
-            catch (KeyNotFoundException)
-            {
-                _variables.Add(variableName, Traverse(node.GetChild(0)));
-            }
-            */ 
-            return SISharpInterpreter.Storage.Variables[_name];
+            if(_setter != null)
+                SISharpInterpreter.Storage.SetVariable(_name,_setter.Traverse());
+            return SISharpInterpreter.Storage.GetVariable(_name);
         }
     }
 }
