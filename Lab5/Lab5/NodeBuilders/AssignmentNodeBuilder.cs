@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab5.SyntaxNodes;
 
 namespace Lab5
 {
@@ -12,22 +13,14 @@ namespace Lab5
 
         public AssignmentNodeBuilder(string line) => _line = line;
 
-        public SyntaxTreeNode Build()
+        public ITraversable Build()
         {
             string[] splitAssignment = _line.Split("=");
 
-            SyntaxTreeNode expressionTree = new ExpressionNodeBuilder(splitAssignment[^1]).Build();
-            SyntaxTreeNode assignmentNode = new(NodeType.Variable, new(splitAssignment[^2]));
-            assignmentNode.AddChild(expressionTree);
+            ITraversable setter = new ExpressionNodeBuilder(splitAssignment[1]).Build();
+            VariableNode node = new VariableNode(splitAssignment[0],setter);
 
-            for (int i = splitAssignment.Length - 3; i >= 0; i--)
-            {
-                SyntaxTreeNode newAssignmentNode = new(NodeType.Variable, new(splitAssignment[i])); ;
-                newAssignmentNode.AddChild(assignmentNode);
-                assignmentNode = newAssignmentNode;
-            }
-
-            return assignmentNode;
+            return node;
         }
     }
 }

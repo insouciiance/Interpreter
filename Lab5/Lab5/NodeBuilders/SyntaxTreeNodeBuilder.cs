@@ -13,7 +13,7 @@ namespace Lab5
 
         public SyntaxTreeNodeBuilder(string line) => _line = line;
 
-        public SyntaxTreeNode Build()
+        public ITraversable Build()
         {
             LineType lineType = DiscernLineType(_line);
 

@@ -28,9 +28,9 @@ namespace Lab5
                 _parser.ParseLine(normalizedLine);
             }
 
-            SyntaxTreePrinter.Print(_parser.Head);
+            //SyntaxTreePrinter.Print(_parser.Head);
 
-            return Traverse(_parser.Head);
+            return _parser.Head.Traverse();
         }
 
         public double Traverse(SyntaxTreeNode node)

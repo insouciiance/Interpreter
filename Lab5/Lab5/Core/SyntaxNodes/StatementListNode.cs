@@ -6,6 +6,11 @@ namespace Lab5.SyntaxNodes
     {
         
         private readonly List<ITraversable> _children = new();
+
+        public void AddSubNode(ITraversable node)
+        {
+            _children.Add(node);
+        }
         
         public double Traverse()
         {

@@ -13,12 +13,18 @@
             _ifBody = ifBody;
             _elseBody = elseBody;
         }
+        
+        public IfStatementNode(ITraversable condition, ITraversable ifBody)
+        {
+            _condition = condition;
+            _ifBody = ifBody;
+        }
 
         public double Traverse()
         {
             double conditionResult = _condition.Traverse();
 
-            return conditionResult == 1 ? _ifBody.Traverse() : _elseBody.Traverse();
+            return conditionResult == 0 ? _ifBody.Traverse() : _elseBody?.Traverse() ?? 0;
         }
     }
 }

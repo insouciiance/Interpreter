@@ -38,6 +38,13 @@ namespace Interpreter.Collections
             _count++;
         }
 
+        public bool Contains(TKey key)
+        {
+            int index = HashToIndex(key, _table.Length);
+            return key != null && index < _table.Length && _table[index] != null &&
+                   _table[index].Select((k) => k.Key.Equals(key)).Count() != 0;
+        }
+        
         public TValue this[TKey key]
         {
             get
