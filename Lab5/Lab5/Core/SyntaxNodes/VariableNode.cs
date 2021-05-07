@@ -7,6 +7,11 @@ namespace Lab5.SyntaxNodes
         private string _name;
         private ITraversable _setter;
 
+        public VariableNode(string name)
+        {
+            _name = name;
+        }
+
         public VariableNode(string name, ITraversable setter)
         {
             _name = name;

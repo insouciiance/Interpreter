@@ -16,7 +16,7 @@
         {
             double whileResult = 0;
 
-            while (_condition.Traverse() != 0)
+            while (_condition.Traverse() == 0)
             {
                 whileResult = _body.Traverse();
             }

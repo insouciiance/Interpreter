@@ -9,12 +9,12 @@ namespace Lab5
 {
     internal class SISharpParser
     {
-        public readonly SyntaxTreeNode Head = new(NodeType.StatementList, null);
+        public ITraversable Head { get; private set; }
 
         public void ParseLine(string line)
         {
             SyntaxTreeNodeBuilder builder = new (line);
-            Head.AddChild(builder.Build());
+            Head = builder.Build();
         }
     }
 }

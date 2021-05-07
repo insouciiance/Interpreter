@@ -8,10 +8,6 @@ namespace Lab5
 {
     internal interface INodeBuilder
     {
-        SyntaxTreeNode Build();
-    }
-    internal interface INodeBuilder2
-    {
         ITraversable Build();
     }
 }

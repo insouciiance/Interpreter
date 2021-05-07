@@ -12,6 +12,12 @@ namespace Lab5.SyntaxNodes
             _subConditions = subConditions;
             _condition = condition;
         }
+        
+        public ConditionNode(ITraversable subCondition)
+        {
+            _subConditions = new List<ITraversable> {subCondition};
+            _condition = Condition.All;
+        }
 
         public double Traverse()
         {
