@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Lab5.SyntaxNodes
+namespace Lab5.Core.SyntaxNodes
 {
     public class VariableNode : ITraversable
     {
@@ -21,8 +20,8 @@ namespace Lab5.SyntaxNodes
 
         public double Traverse()
         {
-            if(_setter != null)
-                SISharpInterpreter.Storage.SetVariable(_name,_setter.Traverse());
+            if (_setter != null)
+                SISharpInterpreter.Storage.SetVariable(_name, _setter.Traverse());
             return SISharpInterpreter.Storage.GetVariable(_name);
         }
 

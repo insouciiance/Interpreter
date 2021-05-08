@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
-
-namespace Lab5.SyntaxNodes
+﻿namespace Lab5.Core.SyntaxNodes
 {
     public class WhileNode : ITraversable
     {
-
         private ITraversable _condition;
         private ITraversable _body;
 

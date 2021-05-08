@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lab5.SyntaxNodes
+namespace Lab5.Core.SyntaxNodes
 {
     public class ConditionNode : ITraversable
     {
@@ -13,7 +13,7 @@ namespace Lab5.SyntaxNodes
             _subConditions = subConditions;
             _condition = condition;
         }
-        
+
         public ConditionNode(ITraversable subCondition)
         {
             _subConditions = new List<ITraversable> {subCondition};
@@ -48,7 +48,8 @@ namespace Lab5.SyntaxNodes
 
         public enum Condition
         {
-            All,Any
+            All,
+            Any
         }
     }
 }

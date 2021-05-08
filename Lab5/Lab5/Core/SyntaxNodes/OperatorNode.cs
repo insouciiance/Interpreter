@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Lab5.SyntaxNodes
+namespace Lab5.Core.SyntaxNodes
 {
-    public delegate double OperateNodes(double x,double y);
-    
+    public delegate double OperateNodes(double x, double y);
+
     public class OperatorNode : ITraversable
     {
         private ITraversable _firstOperand;
@@ -19,7 +19,7 @@ namespace Lab5.SyntaxNodes
 
         public double Traverse()
         {
-            return _operation( _secondOperand.Traverse(),_firstOperand.Traverse());
+            return _operation(_secondOperand.Traverse(), _firstOperand.Traverse());
         }
 
         public void DebugPrint(int paddingCount)

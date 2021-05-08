@@ -1,11 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using Interpreter.Collections;
 
 namespace Lab5
 {
     internal class SISharpInterpreter
     {
-        private readonly Hashtable<string, double> _variables = new();
         private readonly SISharpParser _parser = new();
 
         public static readonly VariableStorage Storage = new();

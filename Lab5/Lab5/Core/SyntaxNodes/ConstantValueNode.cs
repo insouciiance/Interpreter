@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lab5.SyntaxNodes
+namespace Lab5.Core.SyntaxNodes
 {
     public class ConstantValueNode : ITraversable
     {
@@ -13,7 +13,8 @@ namespace Lab5.SyntaxNodes
 
         public double Traverse()
         {
-            return _value ?? throw new InvalidOperationException();;
+            return _value ?? throw new InvalidOperationException();
+            ;
         }
 
         public void DebugPrint(int paddingCount)

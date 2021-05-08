@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Lab5.SyntaxNodes
+namespace Lab5.Core.SyntaxNodes
 {
     public class IfStatementNode : ITraversable
     {
-
         private ITraversable _condition;
         private ITraversable _ifBody;
         private ITraversable _elseBody;
@@ -15,7 +14,7 @@ namespace Lab5.SyntaxNodes
             _ifBody = ifBody;
             _elseBody = elseBody;
         }
-        
+
         public IfStatementNode(ITraversable condition, ITraversable ifBody)
         {
             _condition = condition;
