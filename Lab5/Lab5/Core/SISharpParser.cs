@@ -4,17 +4,23 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lab5.SyntaxNodes;
 
 namespace Lab5
 {
     internal class SISharpParser
     {
-        public ITraversable Head { get; private set; }
+        public StatementListNode Head { get; }
+
+        public SISharpParser()
+        {
+            Head = new StatementListNode();
+        }
 
         public void ParseLine(string line)
         {
             SyntaxTreeNodeBuilder builder = new (line);
-            Head = builder.Build();
+            Head.AddSubNode(builder.Build());
         }
     }
 }

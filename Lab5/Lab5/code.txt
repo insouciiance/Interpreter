@@ -1,0 +1,9 @@
+﻿a = 3;
+b = 5;
+
+while a < 100 do
+    if b < 50 then
+        b = b + 1|
+    a = a + 1;
+
+b

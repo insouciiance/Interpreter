@@ -1,4 +1,6 @@
-﻿namespace Lab5.SyntaxNodes
+﻿using System;
+
+namespace Lab5.SyntaxNodes
 {
     public class IfStatementNode : ITraversable
     {
@@ -23,8 +25,7 @@
         public double Traverse()
         {
             double conditionResult = _condition.Traverse();
-
-            return conditionResult == 0 ? _ifBody.Traverse() : _elseBody?.Traverse() ?? 0;
+            return conditionResult == 1 ? _ifBody.Traverse() : _elseBody?.Traverse() ?? 0;
         }
     }
 }
