@@ -20,7 +20,7 @@ namespace Lab5
                 _parser.ParseLine(normalizedLine);
             }
 
-            _parser.Head.DebugPrint(0);
+            //_parser.Head.DebugPrint(0);
 
             return _parser.Head.Traverse();
         }
