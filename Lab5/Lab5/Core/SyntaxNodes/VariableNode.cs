@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Lab5.SyntaxNodes
 {
@@ -23,6 +24,12 @@ namespace Lab5.SyntaxNodes
             if(_setter != null)
                 SISharpInterpreter.Storage.SetVariable(_name,_setter.Traverse());
             return SISharpInterpreter.Storage.GetVariable(_name);
+        }
+
+        public void DebugPrint(int paddingCount)
+        {
+            Console.WriteLine("variable node");
+            _setter?.DebugPrint(paddingCount);
         }
     }
 }

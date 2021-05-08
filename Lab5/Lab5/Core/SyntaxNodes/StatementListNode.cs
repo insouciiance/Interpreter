@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Lab5.SyntaxNodes
 {
@@ -23,6 +24,15 @@ namespace Lab5.SyntaxNodes
             }
 
             return _children[^1].Traverse();
+        }
+
+        public void DebugPrint(int paddingCount)
+        {
+            Console.WriteLine("statment list node");
+            foreach (var traversable in _children)
+            {
+                traversable.DebugPrint(paddingCount);
+            }
         }
     }
 }

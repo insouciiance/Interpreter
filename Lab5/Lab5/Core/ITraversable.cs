@@ -3,5 +3,6 @@
     public interface ITraversable
     {
         double Traverse();
+        void DebugPrint(int paddingCount);
     }
 }

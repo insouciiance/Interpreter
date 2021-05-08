@@ -1,9 +1,10 @@
-﻿a = 3;
-b = 5;
+﻿firstNumber = 60;
+secondNumber = 45;
 
-while a < 100 do
-    if b < 50 then
-        b = b + 1|
-    a = a + 1;
+while ((firstNumber > 0) * (secondNumber > 0) > 0) do
+    if firstNumber > secondNumber then
+        firstNumber = firstNumber % secondNumber
+    else
+        secondNumber = secondNumber % firstNumber;
 
-b
+firstNumber + secondNumber

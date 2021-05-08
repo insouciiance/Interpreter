@@ -21,5 +21,12 @@ namespace Lab5.SyntaxNodes
         {
             return _operation( _secondOperand.Traverse(),_firstOperand.Traverse());
         }
+
+        public void DebugPrint(int paddingCount)
+        {
+            Console.WriteLine("operaion node");
+            _secondOperand.DebugPrint(paddingCount);
+            _firstOperand.DebugPrint(paddingCount);
+        }
     }
 }

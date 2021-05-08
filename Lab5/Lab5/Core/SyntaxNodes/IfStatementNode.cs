@@ -27,5 +27,13 @@ namespace Lab5.SyntaxNodes
             double conditionResult = _condition.Traverse();
             return conditionResult == 1 ? _ifBody.Traverse() : _elseBody?.Traverse() ?? 0;
         }
+
+        public void DebugPrint(int paddingCount)
+        {
+            Console.WriteLine("if statement node");
+            _condition.DebugPrint(paddingCount);
+            _ifBody.DebugPrint(paddingCount);
+            _elseBody?.DebugPrint(paddingCount);
+        }
     }
 }

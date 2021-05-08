@@ -1,4 +1,7 @@
-﻿namespace Lab5.SyntaxNodes
+﻿using System;
+using System.Linq;
+
+namespace Lab5.SyntaxNodes
 {
     public class WhileNode : ITraversable
     {
@@ -22,6 +25,28 @@
             }
 
             return whileResult;
+        }
+
+        public void DebugPrint(int paddingCount)
+        {
+            /*string prettyPadding = "├──" : "└──";
+            Console.Write($"{string.Concat(Enumerable.Repeat("| ", paddingCount))}{prettyPadding} ");
+
+            Console.ForegroundColor = (ConsoleColor)(paddingCount % 10 + 5);
+            Console.WriteLine(node);
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            paddingCount++;
+            foreach (SyntaxTreeNode child in node)
+            {
+                Traverse(child);
+            }
+            paddingCount--;*/
+            //Console.WriteLine(Enumerable.Repeat("| ", paddingCount) + "├──"  + "while node");
+            paddingCount++;
+            _condition.DebugPrint(paddingCount);
+            _body.DebugPrint(paddingCount);
+            paddingCount--;
         }
     }
 }

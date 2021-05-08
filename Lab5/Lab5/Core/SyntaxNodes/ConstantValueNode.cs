@@ -15,5 +15,10 @@ namespace Lab5.SyntaxNodes
         {
             return _value ?? throw new InvalidOperationException();;
         }
+
+        public void DebugPrint(int paddingCount)
+        {
+            Console.WriteLine("constant node");
+        }
     }
 }
