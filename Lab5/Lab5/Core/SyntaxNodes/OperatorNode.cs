@@ -19,7 +19,7 @@ namespace Lab5.Core.SyntaxNodes
 
         public double Traverse()
         {
-            return _operation(_secondOperand.Traverse(), _firstOperand.Traverse());
+            return _operation(_firstOperand.Traverse(), _secondOperand.Traverse());
         }
 
         public void DebugPrint(int paddingCount)

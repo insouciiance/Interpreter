@@ -15,14 +15,14 @@ namespace Lab5
         {
             ["("] = 0,
             [")"] = 0,
-            [">"] = 1,
-            ["<"] = 1,
-            ["**"] = 2,
-            ["*"] = 3,
-            ["/"] = 3,
-            ["%"] = 3,
-            ["+"] = 4,
-            ["-"] = 4,
+            ["**"] = 1,
+            ["*"] = 2,
+            ["/"] = 2,
+            ["%"] = 2,
+            ["+"] = 3,
+            ["-"] = 3,
+            [">"] = 4,
+            ["<"] = 4,
         };
 
         private readonly string _line;
@@ -62,7 +62,7 @@ namespace Lab5
                         };
                         ITraversable rightNode = nodes.Pop();
                         ITraversable leftNode = nodes.Pop();
-                        newNode = new OperatorNode(rightNode, leftNode, operation);
+                        newNode = new OperatorNode(leftNode, rightNode, operation);
                         nodes.Push(newNode);
                         break;
                     case string variable:

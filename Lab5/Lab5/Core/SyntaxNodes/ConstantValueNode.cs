@@ -14,7 +14,6 @@ namespace Lab5.Core.SyntaxNodes
         public double Traverse()
         {
             return _value ?? throw new InvalidOperationException();
-            ;
         }
 
         public void DebugPrint(int paddingCount)

@@ -21,7 +21,7 @@ namespace Lab5.NodeBuilders
 
             ITraversable body = new SyntaxTreeNodeBuilder(splitFor[1]).Build();
 
-            return new ForNode( condition,initVariable, variableModifier, body);
+            return new ForNode(initVariable, condition, variableModifier, body);
         }
     }
 }
