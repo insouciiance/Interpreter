@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Interpreter.Collections;
 
@@ -6,14 +7,18 @@ namespace Lab5
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             SISharpInterpreter interpreter = new ();
 
-            while (true)
-            {
-                Console.WriteLine(interpreter.Execute(Console.ReadLine()));
-            }
+            string path = Console.ReadLine();
+
+            using StreamReader reader = new (path ?? throw new ArgumentNullException());
+            string code = await reader.ReadToEndAsync();
+
+            Console.WriteLine(interpreter.Execute(code));
+
+            Console.ReadKey();
         }
     }
 }
