@@ -1,4 +1,6 @@
-﻿using Lab5.Core;
+﻿using System;
+using Lab5.Core;
+using Lab5.Core.SyntaxNodes;
 
 namespace Lab5.NodeBuilders
 {
@@ -19,7 +21,7 @@ namespace Lab5.NodeBuilders
 
             ITraversable body = new SyntaxTreeNodeBuilder(splitFor[1]).Build();
 
-            return new ForStatementNode(firstInner, secondInner, thirdInner, body);
+            return new ForNode(firstInner, secondInner, thirdInner, body);
         }
     }
 }
