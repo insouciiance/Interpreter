@@ -7,13 +7,18 @@ namespace Lab5
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            SISharpInterpreter interpreter = new ();
-            
-            string path = @"C:\Users\danvu\Documents\GitHubPP\Interpreter\Lab5\Lab5\code.txt";
-            using StreamReader reader = new StreamReader(path);
-            Console.WriteLine(interpreter.Execute(reader.ReadToEnd()));
-        }
+            SISharpInterpreter interpreter = new();
+
+            string path = Console.ReadLine();
+
+            using StreamReader reader = new(path ?? throw new ArgumentNullException());
+            string code = await reader.ReadToEndAsync();
+
+            Console.WriteLine(interpreter.Execute(code));
+
+            Console.ReadKey();
         }
     }
+}

@@ -3,11 +3,5 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>bin\Debug\netcoreapp3.1\CollectionsKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="bin\Debug\netcoreapp3.1\CollectionsKey.snk" />
-  </ItemGroup>
-
 </Project>
