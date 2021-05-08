@@ -9,16 +9,16 @@ namespace Lab5
     {
         static async Task Main(string[] args)
         {
-            SISharpInterpreter interpreter = new ();
+            SISharpInterpreter interpreter = new();
 
             string path = Console.ReadLine();
 
             using StreamReader reader = new(path ?? throw new ArgumentNullException());
             string code = await reader.ReadToEndAsync();
 
-            interpreter.Execute(code);
+            Console.WriteLine(interpreter.Execute(code));
 
             Console.ReadKey();
         }
-        }
     }
+}
