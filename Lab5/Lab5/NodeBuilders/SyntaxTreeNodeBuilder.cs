@@ -24,6 +24,7 @@ namespace Lab5
                 LineType.Assignment => new AssignmentNodeBuilder(_line),
                 LineType.Expression => new ExpressionNodeBuilder(_line),
                 LineType.WhileStatement => new WhileStatementNodeBuilder(_line),
+                LineType.ForStatement => new ForStatementNodeBuilder(_line),
                 _ => throw new InvalidOperationException()
             };
 
@@ -32,6 +33,11 @@ namespace Lab5
 
         private static LineType DiscernLineType(string line)
         {
+            if (line.Contains("for"))
+            {
+                return LineType.ForStatement;
+            }
+            
             if (line.Contains("while"))
             {
                 return LineType.WhileStatement;

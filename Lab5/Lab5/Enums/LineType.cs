@@ -11,6 +11,7 @@ namespace Lab5
         IfStatement,
         WhileStatement,
         Expression,
-        Assignment
+        Assignment,
+        ForStatement,
     }
 }
