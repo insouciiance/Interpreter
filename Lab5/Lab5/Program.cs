@@ -20,5 +20,5 @@ namespace Lab5
 
             Console.ReadKey();
         }
+        }
     }
-}
