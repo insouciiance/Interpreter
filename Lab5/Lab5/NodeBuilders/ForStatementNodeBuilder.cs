@@ -15,7 +15,7 @@ namespace Lab5.NodeBuilders
         public ITraversable Build()
         {
             string[] splitFor = _line.Split(new string[]{"for(", "){", "}"}, StringSplitOptions.RemoveEmptyEntries);
-            string[] innerConditions = splitFor[0].Split("", StringSplitOptions.RemoveEmptyEntries);
+            string[] innerConditions = splitFor[0].Split("$", StringSplitOptions.RemoveEmptyEntries);
 
             ITraversable firstInner = new SyntaxTreeNodeBuilder(innerConditions[0]).Build();
             ITraversable secondInner = new SyntaxTreeNodeBuilder(innerConditions[1]).Build();
