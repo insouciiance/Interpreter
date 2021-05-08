@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,10 @@ namespace Lab5
 
                 switch (lexeme)
                 {
-                    case string s when double.TryParse(s, out double d):
+                    case string s when double.TryParse(s.Replace(',', '.'), 
+                        NumberStyles.Any, 
+                        CultureInfo.InvariantCulture, 
+                        out double d):
                         newNode = new(NodeType.Value, new(d));
                         nodes.Push(newNode);
                         break;
