@@ -5,7 +5,6 @@ namespace Lab5
 {
     public class VariableStorage
     {
-        //private readonly Hashtable<string, double> _variables = new();
         private Dictionary<string, double> _variables = new();
 
         public void SetVariable(string name, double value)

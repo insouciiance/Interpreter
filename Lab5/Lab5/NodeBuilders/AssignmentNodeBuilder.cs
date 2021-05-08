@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab5.SyntaxNodes;
+using Lab5.Core;
+using Lab5.Core.SyntaxNodes;
 
 namespace Lab5
 {

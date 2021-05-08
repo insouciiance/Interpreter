@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab5.SyntaxNodes;
+using Lab5.Core.SyntaxNodes;
 
 namespace Lab5
 {

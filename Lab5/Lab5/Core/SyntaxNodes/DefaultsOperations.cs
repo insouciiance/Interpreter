@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lab5.SyntaxNodes
+namespace Lab5.Core.SyntaxNodes
 {
     public static class DefaultsOperations
     {
