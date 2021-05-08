@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lab5.Core;
+using Lab5.Helpers;
 using Lab5.NodeBuilders;
 
 namespace Lab5
@@ -16,7 +17,7 @@ namespace Lab5
 
         public ITraversable Build()
         {
-            LineType lineType = DiscernLineType(_line);
+            LineType lineType = LineDiscerner.DiscernLineType(_line);
 
             INodeBuilder builder = lineType switch
             {
@@ -29,31 +30,6 @@ namespace Lab5
             };
 
             return builder.Build();
-        }
-
-        private static LineType DiscernLineType(string line)
-        {
-            if (line.Contains("for"))
-            {
-                return LineType.ForStatement;
-            }
-            
-            if (line.Contains("while"))
-            {
-                return LineType.WhileStatement;
-            }
-
-            if (line.Contains("if"))
-            {
-                return LineType.IfStatement;
-            }
-
-            if (line.Contains("="))
-            {
-                return LineType.Assignment;
-            }
-
-            return LineType.Expression;
         }
     }
 }
